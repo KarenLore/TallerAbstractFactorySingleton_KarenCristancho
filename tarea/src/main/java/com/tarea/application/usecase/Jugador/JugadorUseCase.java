@@ -30,7 +30,7 @@ public class JugadorUseCase {
         repository.actualizar(jugador);
     }
 
-    public void eliminarEquipo(int id) {
+    public void eliminarJugador(int id) {
         repository.eliminar(id);
     }
 }

@@ -1,7 +1,8 @@
-// package com.challenges;
+// package com.tarea.challenges;
 
-// import com.domain.entity.Equipo;
-// import com.domain.entity.Jugador;
+// import com.tarea.domain.entity.Equipo;
+// import com.tarea.domain.entity.Jugador;
+// import com.tarea.domain.entity.ListaEquipos;
 
 // import java.util.Comparator;
 // import java.util.List;

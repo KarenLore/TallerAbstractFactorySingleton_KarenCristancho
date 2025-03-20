@@ -8,7 +8,7 @@ public enum HexaSingleton {
     INSTANCIA;
     private final Properties propiedades = new Properties();
     HexaSingleton() {
-        cargarConfiguraciones("config.properties");
+        cargarConfiguraciones("configMySql.properties");
     }
     private void cargarConfiguraciones(String rutaArchivo) {
     try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(rutaArchivo)) {

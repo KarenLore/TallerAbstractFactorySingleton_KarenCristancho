@@ -1,6 +1,7 @@
 // package com.tarea.challenges;
 
 // import com.tarea.domain.entity.Equipo;
+// import com.tarea.domain.entity.ListaEquipos;
 
 // import java.util.Comparator;
 // import java.util.Map;

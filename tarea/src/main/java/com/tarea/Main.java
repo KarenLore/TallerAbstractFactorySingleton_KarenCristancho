@@ -1,256 +1,207 @@
 package com.tarea;
 
-import java.util.Scanner;
-
 import com.tarea.application.usecase.Equipo.EquipoUseCase;
-import com.tarea.domain.repository.EquipoRepository;
+import com.tarea.application.usecase.Jugador.JugadorUseCase;
+import com.tarea.infrastructure.database.ConnectionFactory;
+import com.tarea.infrastructure.persistence.Equipo.EquipoRepositoryImpl;
+import com.tarea.infrastructure.persistence.Jugador.JugadorRepositoryImpl;
+import com.tarea.infrastructure.persistence.Estadistica.EstadisticaRepositoryImpl;
+import com.tarea.application.usecase.Estadisticas.EstadisticasUseCase;
+
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        EquipoRepository repositorio = new EquipoRepositoryImpl(ConnectionFactory.crearConexion());
-        EquipoUseCase equipoUseCase = new EquipoUseCase(repositorio);
-        try (Scanner sc = new Scanner(System.in)){
-            String menu;
-            do {
-                String menuEquipos; 
-                String menuProductos; 
-                System.out.println("1.) Entrar a menu de Equipos");
-                System.out.println("2.) Entrar a menu de Producto");
-                System.out.println("3.) salir....");
-                System.out.print("Elige una opcion = ");
-                menu = sc.nextLine();
-                System.out.println("");
-                switch (menu) {
-                    case "1":
-                        do {
-                            System.out.println("Menus de Equipos");
-                            System.out.println("1.)Registrar equipos");
-                            System.out.println("2.)Buscar equipos");
-                            System.out.println("3.)Actualizar datos de un equipos");
-                            System.out.println("4.)Listar todos los equipos ");
-                            System.out.println("5.)Eliminar equipos");
-                            System.out.println("6.)Salir");
-                            System.out.print("Elige una opcion = ");
-                            menuEquipos = sc.nextLine();
-                            System.out.println("");
-                            switch (menuEquipos) {
-                                case "1":
-                                    try {
-                                        int id = 0;
-                                        System.out.print("Ingrese Nombre del equipo: ");
-                                        String name = sc.nextLine();
-                                        System.out.print("Ingrese la fecha de creacion del equipo: ");
-                                        int yearFoundation = sc.nextInt();
-                                        sc.nextLine();
-                                        System.out.print("Ingrese el nombre del entrenador: ");
-                                        String coach = sc.nextLine();
-                                        clienteCasoUso.registrarEquipo(id, name, yearFoundation, coach);
-                                        
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                    }
+        Scanner scanner = new Scanner(System.in);
 
-                                    break;
-                                case "2":
-                                    try {
-                                        System.out.print("Ingrese el ID del equipo: ");
-                                        int idBuscar = sc.nextInt();
-                                        sc.nextLine();
-                                        EquipoUseCase.obtenerEquipos(idBuscar);
-                                        System.out.println("");
-                                    } catch (Exception e) {
-                                        System.out.println("Error vuelve a intentarlo.");
-                                        System.out.println("");
-                                    }
+        EquipoUseCase equipoUseCase = new EquipoUseCase(new EquipoRepositoryImpl(ConnectionFactory.crearConexion()));
+        JugadorUseCase jugadorUseCase = new JugadorUseCase(new JugadorRepositoryImpl(ConnectionFactory.crearConexion()));
+        EstadisticasUseCase estadisticasUseCase = new EstadisticasUseCase(new EstadisticaRepositoryImpl(ConnectionFactory.crearConexion()));
 
-                                    break;
-                                case "3":
-                                    try {
-                                        System.out.print("Ingrese el ID del equipo que deseas modificar: ");
-                                        int idNuevo = sc.nextInt();
-                                        sc.nextLine(); 
-                                        System.out.print("Ingrese el nuevo nombre del equipo: ");
-                                        String nameNuevo = sc.nextLine();
-                                        System.out.print("Ingrese el nuevo año de fundación: ");
-                                        int yearFoundationNuevo = sc.nextInt();
-                                        sc.nextLine();  
-                                        System.out.print("Ingrese el nuevo nombre del entrenador: ");
-                                        String coachNuevo = sc.nextLine();
-                                        System.out.println("");
-                                        System.out.println("Datos anteriores:");
-                                        EquipoUseCase.obtenerEquipos(idNuevo);
-                                        EquipoUseCase.actualizarEquipos(idNuevo, nameNuevo, yearFoundationNuevo, coachNuevo);
-                                        System.out.println("Datos actualizados:");
-                                        EquipoUseCase.obtenerEquipos(idNuevo);
-                                        System.out.println("");
-                                          
-                                    } catch (Exception e) {
-                                        System.out.println("Error vuelve a intentarlo.");
-                                        System.out.println("");
-                                    }
+        int opcion;
+        do {
+            System.out.println("\n--- MENÚ PRINCIPAL ---");
+            System.out.println("1. Gestionar Equipos");
+            System.out.println("2. Gestionar Jugadores");
+            System.out.println("3. Gestionar Estadísticas");
+            System.out.println("4. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
 
-                                    break;
-                                case "4":
-                                    try {
-                                        EquipoUseCase.listarEquipo();
-                                        System.out.println("");
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-
-                                    break;
-                                case "5":
-                                    try {
-                                        System.out.print("Ingrese el ID del equipo que deseas eliminar: ");
-                                        int idEliminar = sc.nextInt();
-                                        sc.nextLine();
-                                        EquipoUseCase.eliminarEquipo(idEliminar);
-                                        System.out.println("");
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-    
-                                    break;
-                                case "6":
-
-                                    System.out.println("Saliendo.......");
-                                    System.out.println();
-                                    break;
-                                default:
-                                    System.out.println("La opción seleccionada no existe, volviendo al menú........");
-                                    System.out.println();
-                                    break;
-                            }
-                        } while (!menuEquipos.equals("6"));
-                        break;
-
-                    // productos
-
-                    case "2":
-                        do {
-                            System.out.println("Menus de productos");
-                            System.out.println("1.)Registrar Productos");
-                            System.out.println("2.)Buscar producto");
-                            System.out.println("3.)Actualizar datos de un producto");
-                            System.out.println("4.)Mostrar todos los productos ");
-                            System.out.println("5.)Eliminar producto");
-                            System.out.println("6.)Salir");
-                            System.out.print("Elige una opcion = ");
-                            menuProductos = sc.nextLine();
-                            System.out.println("");
-                            switch (menuProductos) {
-                                case "1":
-                                    try {
-                                        int id = 0;
-                                        System.out.print("Ingrese Nombre: ");
-                                        String nombre = sc.nextLine();
-                                        System.out.print("Ingrese el stock: ");
-                                        int stock = sc.nextInt();
-                                        sc.nextLine();
-                                        if (stock >= 0) {
-                                            productoCasoUso.registrarProducto(id, nombre, stock);
-                                            System.out.println("Producto registrado exitosamente.");     
-                                            System.out.println("");
-                                        }else{
-                                            System.out.println("No esta permitido STOCK negativo");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-           
-                                break;
-                                case "2":
-                                    try {
-                                        System.out.print("Ingrese el Id del producto = ");
-                                        int idBuscarProducto = sc.nextInt();
-                                        sc.nextLine();
-                                        productoCasoUso.obtenerProducto(idBuscarProducto);
-                                        System.out.println("");
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-                 
-                                break;
-                                case "3":
-                                    try {
-                                        System.out.print("Ingrese el Id del producto a editar = ");
-                                        int idProductonuuevo = sc.nextInt();
-                                        sc.nextLine();
-                                        System.out.print("Ingrese el nuevo nombre del Producto = ");
-                                        String NuevoProducto = sc.nextLine();
-                                        System.out.print("Ingrese el nuevo Stock = ");
-                                        int NuevoStock = sc.nextInt();
-                                        sc.nextLine();
-                                        if (NuevoStock >= 0) {
-                                            System.out.println("");
-                                            System.out.println("Datos anteriores = ");
-                                            productoCasoUso.obtenerProducto(idProductonuuevo);
-                                            productoCasoUso.actualizarProducto(idProductonuuevo, NuevoProducto, NuevoStock);
-                                            System.out.println("");
-                                            System.out.println("Datos actualizados = ");
-                                            productoCasoUso.obtenerProducto(idProductonuuevo);
-                                            System.out.println("");
-                                        }else{
-                                            System.out.println("No esta permitido STOCK negativo");
-                                        }
-                                     
-
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-                                    break;
-                                case "4":
-                                    try {
-                                        productoCasoUso.listarProducts();
-                                        System.out.println("");
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-
-                                    break;
-                                case "5":
-                                    try {
-                                        System.out.print("Ingrese el Id del producto a eliminar = ");
-                                        int idEliminarProducto = sc.nextInt();
-                                        sc.nextLine();
-                                        productoCasoUso.eliminarProducto(idEliminarProducto);
-                                        System.out.println("");
-                                    } catch (Exception e) {
-                                        System.out.println("error vuelve a intentarlo");
-                                        System.out.println("");
-                                    }
-                         
-                                    break;
-                                case "6":
-                                    System.out.println("Saliendo.......");
-                                    System.out.println();
-                                    break;
-                                default:
-                                    System.out.println("Dato seleccionado no existe, volviendo a menu........");
-                                    System.out.println();
-                                    break;
-                            }
-                        } while (!menuProductos.equals("6"));
-                        break;
-
-                    case "3":
-                        System.out.println("Saliendo.......");
-                        System.out.println();
-                        break;
-                    default:
-                        System.out.println("Dato seleccionado no existe, volviendo a menu........");
-                        System.out.println();
+            switch (opcion) {
+                case 1:
+                    gestionarEquipos(scanner, equipoUseCase);
                     break;
-                }   
-            }while(!menu.equals("3"));
-        }catch(Exception e) {
-            System.out.println("Error por favor vuelve a iniciar el programa");
-        }
+                case 2:
+                    gestionarJugadores(scanner, jugadorUseCase);
+                    break;
+                case 3:
+                    gestionarEstadisticas(scanner, estadisticasUseCase);
+                    break;
+                case 4:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+            }
+        } while (opcion != 4);
+
+        scanner.close();
+    }
+
+    private static void gestionarEquipos(Scanner scanner, EquipoUseCase equipoUseCase) {
+        int opcion;
+        do {
+            System.out.println("\n--- GESTIÓN DE EQUIPOS ---");
+            System.out.println("1. Registrar Equipo");
+            System.out.println("2. Consultar Equipo");
+            System.out.println("3. Actualizar Equipo");
+            System.out.println("4. Eliminar Equipo");
+            System.out.println("5. Listar Equipos");
+            System.out.println("6. Volver");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Nombre: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Año de Fundación: ");
+                    String year = scanner.nextLine();
+                    System.out.print("Entrenador: ");
+                    String coach = scanner.nextLine();
+                    equipoUseCase.registrarEquipo(id, name, year, coach);
+                    System.out.println("Equipo registrado con éxito.");
+                    break;
+                case 2:
+                    System.out.print("Ingrese ID del equipo: ");
+                    int idEquipo = scanner.nextInt();
+                    System.out.println(equipoUseCase.obtenerEquipo(idEquipo));
+                    break;
+                case 3:
+                    System.out.print("ID del equipo a actualizar: ");
+                    int idUpdate = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Nuevo Nombre: ");
+                    String newName = scanner.nextLine();
+                    System.out.print("Nuevo Año de Fundación: ");
+                    String newYear = scanner.nextLine();
+                    System.out.print("Nuevo Entrenador: ");
+                    String newCoach = scanner.nextLine();
+                    equipoUseCase.actualizarEquipo(idUpdate, newName, newYear, newCoach);
+                    System.out.println("Equipo actualizado.");
+                    break;
+                case 4:
+                    System.out.print("ID del equipo a eliminar: ");
+                    int idDelete = scanner.nextInt();
+                    equipoUseCase.eliminarEquipo(idDelete);
+                    System.out.println("Equipo eliminado.");
+                    break;
+                case 5:
+                    System.out.println("Listado de Equipos:");
+                    System.out.println(equipoUseCase.listarEquipo());
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 6);
+    }
+
+    private static void gestionarJugadores(Scanner scanner, JugadorUseCase jugadorUseCase) {
+        int opcion;
+        do {
+            System.out.println("\n--- GESTIÓN DE JUGADORES ---");
+            System.out.println("1. Registrar Jugador");
+            System.out.println("2. Consultar Jugador");
+            System.out.println("3. Actualizar Jugador");
+            System.out.println("4. Eliminar Jugador");
+            System.out.println("5. Listar Jugadores");
+            System.out.println("6. Volver");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Dorsal: ");
+                    int dorsal = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Nombre: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Nacionalidad: ");
+                    String nationality = scanner.nextLine();
+                    System.out.print("Edad: ");
+                    int age = scanner.nextInt();
+                    System.out.print("Altura: ");
+                    int height = scanner.nextInt();
+                    System.out.print("Peso: ");
+                    int weight = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Posición: ");
+                    String position = scanner.nextLine();
+                    jugadorUseCase.registrarJugador(dorsal, name, nationality, age, height, weight, position);
+                    System.out.println("Jugador registrado.");
+                    break;
+                case 2:
+                    System.out.print("Ingrese ID del jugador: ");
+                    int idJugador = scanner.nextInt();
+                    System.out.println(jugadorUseCase.obtenerJugador(idJugador));
+                    break;
+                case 3:
+                    System.out.println("Función de actualizar jugador en construcción.");
+                    break;
+                case 4:
+                    System.out.print("ID del jugador a eliminar: ");
+                    int idDelete = scanner.nextInt();
+                    jugadorUseCase.eliminarJugador(idDelete);
+                    System.out.println("Jugador eliminado.");
+                    break;
+                case 5:
+                    System.out.println("Listado de Jugadores:");
+                    System.out.println(jugadorUseCase.listarJugador());
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 6);
+    }
+
+    private static void gestionarEstadisticas(Scanner scanner, EstadisticasUseCase estadisticasUseCase) {
+        int opcion;
+        do {
+            System.out.println("\n--- GESTIÓN DE ESTADÍSTICAS ---");
+            System.out.println("1. Registrar Estadística");
+            System.out.println("2. Consultar Estadística");
+            System.out.println("3. Listar Estadísticas");
+            System.out.println("4. Volver");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Función de registrar estadísticas en construcción.");
+                    break;
+                case 2:
+                    System.out.print("Ingrese ID de la estadística: ");
+                    int idEstadistica = scanner.nextInt();
+                    System.out.println(estadisticasUseCase.obtenerEstadistica(idEstadistica));
+                    break;
+                case 3:
+                    System.out.println("Listado de Estadísticas:");
+                    System.out.println(estadisticasUseCase.listarEstadisticas());
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 4);
     }
 }

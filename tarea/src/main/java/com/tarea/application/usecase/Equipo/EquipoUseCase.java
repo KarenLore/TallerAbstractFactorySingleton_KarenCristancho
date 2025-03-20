@@ -12,7 +12,7 @@ public class EquipoUseCase {
         this.repository = repository;
     }
 
-    public void registrarCliente(int id, String name, String yearFoundation, String coach) {
+    public void registrarEquipo(int id, String name, String yearFoundation, String coach) {
         Equipo equipo = new Equipo(id, name, yearFoundation, coach);
         repository.guardar(equipo);
     }

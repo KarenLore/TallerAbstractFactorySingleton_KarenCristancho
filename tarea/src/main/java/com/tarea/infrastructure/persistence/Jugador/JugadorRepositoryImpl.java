@@ -20,7 +20,7 @@ public class JugadorRepositoryImpl implements JugadorRepository{
     }
     @Override
     public void guardar(Jugador jugador) {
-        String sql = "INSERT INTO jugador (dorsal, name, nationality, age, height, weight, position) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO jugadores (dorsal, name, nationality, age, height, weight, position) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, jugador.getDorsal());
@@ -38,7 +38,7 @@ public class JugadorRepositoryImpl implements JugadorRepository{
 
     @Override
     public Jugador buscarPorId(int id) {
-        String sql = "SELECT * FROM jugador WHERE id = ?";
+        String sql = "SELECT * FROM jugadores WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -55,7 +55,7 @@ public class JugadorRepositoryImpl implements JugadorRepository{
     @Override
     public List<Jugador> listarTodos() {
         List<Jugador> jugador = new ArrayList<>();
-        String sql = "SELECT * FROM jugador";
+        String sql = "SELECT * FROM jugadores";
         try (Connection conexion = connection.getConexion();
             Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
@@ -70,7 +70,7 @@ public class JugadorRepositoryImpl implements JugadorRepository{
 
     @Override
     public void actualizar(Jugador jugador) {
-        String sql = "UPDATE estadisticas SET dorsal = ?, name = ?, SET nationality = ?, SET age = ?, SET height = ?, SET weight = ?,SET position = ? WHERE id = ?";
+        String sql = "UPDATE jugadores SET dorsal = ?, name = ?, SET nationality = ?, SET age = ?, SET height = ?, SET weight = ?,SET position = ? WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, jugador.getDorsal());
@@ -88,7 +88,7 @@ public class JugadorRepositoryImpl implements JugadorRepository{
 
     @Override
     public void eliminar(int id) {
-        String sql = "DELETE FROM equipo WHERE id = ?";
+        String sql = "DELETE FROM jugadores WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);

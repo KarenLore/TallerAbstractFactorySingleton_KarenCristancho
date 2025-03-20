@@ -20,7 +20,7 @@ public class EquipoRepositoryImpl implements EquipoRepository{
     }
     @Override
     public void guardar(Equipo equipo) {
-        String sql = "INSERT INTO equipo (id, name, yearFoundation, coach) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO equipos (id, name, yearFoundation, coach) VALUES (?, ?, ?, ?)";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, equipo.getId());
@@ -35,7 +35,7 @@ public class EquipoRepositoryImpl implements EquipoRepository{
 
     @Override
     public Equipo buscarPorId(int id) {
-        String sql = "SELECT * FROM equipo WHERE id = ?";
+        String sql = "SELECT * FROM equipos WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -52,7 +52,7 @@ public class EquipoRepositoryImpl implements EquipoRepository{
     @Override
     public List<Equipo> listarTodos() {
         List<Equipo> equipo = new ArrayList<>();
-        String sql = "SELECT * FROM equipo";
+        String sql = "SELECT * FROM equipos";
         try (Connection conexion = connection.getConexion();
             Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
@@ -67,7 +67,7 @@ public class EquipoRepositoryImpl implements EquipoRepository{
 
     @Override
     public void actualizar(Equipo equipo) {
-        String sql = "UPDATE equipo SET name = ?, yearFoundation = ?, SET coach = ? WHERE id = ?";
+        String sql = "UPDATE equipos SET name = ?, yearFoundation = ?, SET coach = ? WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
                 stmt.setInt(1, equipo.getId());
@@ -82,13 +82,13 @@ public class EquipoRepositoryImpl implements EquipoRepository{
 
     @Override
     public void eliminar(int id) {
-        String sql0 = "SELECT * FROM equipo WHERE id = ?";
+        String sql0 = "SELECT * FROM equipos WHERE id = ?";
         try (Connection conexion = connection.getConexion();
                 PreparedStatement stmt = conexion.prepareStatement(sql0)) {
                 stmt.setInt(1, id);
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    String sql = "DELETE FROM equipo WHERE id = ?";
+                    String sql = "DELETE FROM equipos WHERE id = ?";
                     try (Connection conexion1 = connection.getConexion();
                         PreparedStatement stmt1 = conexion1.prepareStatement(sql)) {
                         stmt1.setInt(1, id);

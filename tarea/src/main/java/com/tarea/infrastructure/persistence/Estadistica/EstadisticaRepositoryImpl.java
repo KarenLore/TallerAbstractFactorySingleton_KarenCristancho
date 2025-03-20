@@ -38,7 +38,7 @@ public class EstadisticaRepositoryImpl implements EstadisticasRepository{
 
     @Override
     public Estadisticas buscarPorId(int id) {
-        String sql = "SELECT * FROM equipo WHERE id = ?";
+        String sql = "SELECT * FROM estadisticas WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -55,7 +55,7 @@ public class EstadisticaRepositoryImpl implements EstadisticasRepository{
     @Override
     public List<Estadisticas> listarTodos() {
         List<Estadisticas> estadisticas = new ArrayList<>();
-        String sql = "SELECT * FROM equipo";
+        String sql = "SELECT * FROM estadisticas";
         try (Connection conexion = connection.getConexion();
             Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
@@ -88,7 +88,7 @@ public class EstadisticaRepositoryImpl implements EstadisticasRepository{
 
     @Override
     public void eliminar(int id) {
-        String sql = "DELETE FROM equipo WHERE id = ?";
+        String sql = "DELETE FROM estadisticas WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
